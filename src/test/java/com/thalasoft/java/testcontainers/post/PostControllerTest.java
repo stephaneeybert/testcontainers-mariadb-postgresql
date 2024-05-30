@@ -13,7 +13,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.testcontainers.containers.MariaDBContainer;
@@ -83,7 +82,6 @@ class PostControllerTest {
     }
 
     @Test
-    @Rollback
     void shouldCreateNewPostWhenPostIsValid() {
         Post post = new Post(101, 1, "101 Title", "101 Body", null);
 
@@ -99,6 +97,11 @@ class PostControllerTest {
         assertThat(response.getBody().userId()).isEqualTo(1);
         assertThat(response.getBody().title()).isEqualTo("101 Title");
         assertThat(response.getBody().body()).isEqualTo("101 Body");
+
+        ResponseEntity<Void> deleted = restClient.delete()
+        .uri(uriBase + API_ROOT + "/101")
+        .retrieve()
+        .toBodilessEntity();
     }
 
     @Test
@@ -116,7 +119,6 @@ class PostControllerTest {
     }
 
     @Test
-    @Rollback
     void shouldUpdatePostWhenPostIsValid() {
         Post existing = restClient.get()
                 .uri(uriBase + API_ROOT + "/91")
@@ -141,7 +143,6 @@ class PostControllerTest {
     }
 
     @Test
-    @Rollback
     void shouldDeleteWithValidID() {
         ResponseEntity<Void> response = restClient.delete()
                 .uri(uriBase + API_ROOT + "/88")
