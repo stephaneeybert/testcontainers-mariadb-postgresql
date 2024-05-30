@@ -83,7 +83,11 @@ class PostControllerTest {
 
     @Test
     void shouldCreateNewPostWhenPostIsValid() {
-        Post post = new Post(101, 1, "101 Title", "101 Body", null);
+        int id = 101;
+        String title = "The title";
+        String body = "The body";
+        int userId = 1;
+        Post post = new Post(id, userId, title, body, null);
 
         ResponseEntity<Post> response = restClient.post()
                 .uri(uriBase + API_ROOT)
@@ -93,13 +97,13 @@ class PostControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(101);
-        assertThat(response.getBody().userId()).isEqualTo(1);
-        assertThat(response.getBody().title()).isEqualTo("101 Title");
-        assertThat(response.getBody().body()).isEqualTo("101 Body");
+        assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(id);
+        assertThat(response.getBody().userId()).isEqualTo(userId);
+        assertThat(response.getBody().title()).isEqualTo(title);
+        assertThat(response.getBody().body()).isEqualTo(body);
 
         ResponseEntity<Void> deleted = restClient.delete()
-        .uri(uriBase + API_ROOT + "/101")
+        .uri(uriBase + API_ROOT + "/" + id)
         .retrieve()
         .toBodilessEntity();
     }
@@ -127,7 +131,9 @@ class PostControllerTest {
 
         assertThat(existing).isNotNull();
 
-        Post touched = new Post(existing.id(), existing.userId(), "NEW POST TITLE #1", "NEW POST BODY #1",
+        String title = "NEW POST TITLE #1";
+        String body = "NEW POST BODY #1";
+        Post touched = new Post(existing.id(), existing.userId(), title, body,
                 existing.version());
 
         Post updated = restClient.put()
@@ -138,8 +144,8 @@ class PostControllerTest {
 
         assertThat(updated.id()).isEqualTo(existing.id());
         assertThat(updated.userId()).isEqualTo(existing.userId());
-        assertThat(updated.title()).isEqualTo("NEW POST TITLE #1");
-        assertThat(updated.body()).isEqualTo("NEW POST BODY #1");
+        assertThat(updated.title()).isEqualTo(title);
+        assertThat(updated.body()).isEqualTo(body);
     }
 
     @Test
