@@ -35,18 +35,18 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    Optional<Post> findById(@PathVariable Integer id) {
+    Optional<Post> findById(@PathVariable final Integer id) {
         return Optional.ofNullable(repository.findById(id).orElseThrow(PostNotFoundException::new));
     }
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    Post save(@RequestBody @Valid Post post) {
+    Post save(@RequestBody @Valid final Post post) {
         return repository.save(post);
     }
 
     @PutMapping("/{id}")
-    Post update(@PathVariable Integer id, @RequestBody Post post) {
+    Post update(@PathVariable final Integer id, @RequestBody @Valid final Post post) {
         Optional<Post> existing = repository.findById(id);
         if (existing.isPresent()) {
             Post updatedPost = new Post(existing.get().id(),
