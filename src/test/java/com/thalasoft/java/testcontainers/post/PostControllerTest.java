@@ -87,18 +87,18 @@ class PostControllerTest {
     void shouldCreateNewPostWhenPostIsValid() {
         Post post = new Post(101, 1, "101 Title", "101 Body", null);
 
-            ResponseEntity<Post> response = restClient.post()
-                    .uri(uriBase + API_ROOT)
+        ResponseEntity<Post> response = restClient.post()
+                .uri(uriBase + API_ROOT)
                 .body(post)
-                    .retrieve()
-                    .toEntity(Post.class);
+                .retrieve()
+                .toEntity(Post.class);
 
-            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-            assertThat(response.getBody()).isNotNull();
-            assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(101);
-            assertThat(response.getBody().userId()).isEqualTo(1);
-            assertThat(response.getBody().title()).isEqualTo("101 Title");
-            assertThat(response.getBody().body()).isEqualTo("101 Body");
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(101);
+        assertThat(response.getBody().userId()).isEqualTo(1);
+        assertThat(response.getBody().title()).isEqualTo("101 Title");
+        assertThat(response.getBody().body()).isEqualTo("101 Body");
     }
 
     @Test
@@ -113,6 +113,31 @@ class PostControllerTest {
 
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         }).isInstanceOf(HttpClientErrorException.class);
+    }
+
+    @Test
+    @Rollback
+    void shouldUpdatePostWhenPostIsValid() {
+        Post existing = restClient.get()
+                .uri(uriBase + API_ROOT + "/91")
+                .retrieve()
+                .body(Post.class);
+
+        assertThat(existing).isNotNull();
+
+        Post touched = new Post(existing.id(), existing.userId(), "NEW POST TITLE #1", "NEW POST BODY #1",
+                existing.version());
+
+        Post updated = restClient.put()
+                .uri(uriBase + API_ROOT + "/" + existing.id())
+                .body(touched)
+                .retrieve()
+                .body(Post.class);
+
+        assertThat(updated.id()).isEqualTo(existing.id());
+        assertThat(updated.userId()).isEqualTo(existing.userId());
+        assertThat(updated.title()).isEqualTo("NEW POST TITLE #1");
+        assertThat(updated.body()).isEqualTo("NEW POST BODY #1");
     }
 
     @Test
