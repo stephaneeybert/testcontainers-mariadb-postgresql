@@ -46,6 +46,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     Post update(@PathVariable final Integer id, @RequestBody @Valid final Post post) {
         Optional<Post> existing = repository.findById(id);
         if (existing.isPresent()) {
