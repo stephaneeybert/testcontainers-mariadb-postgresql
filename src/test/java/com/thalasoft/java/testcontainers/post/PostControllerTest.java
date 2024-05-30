@@ -91,7 +91,7 @@ class PostControllerTest {
         assertThatThrownBy(() -> {
             ResponseEntity<Post> response = restClient.post()
                     .uri(uriBase + API_ROOT)
-                    .body(new HttpEntity<Post>(post))
+                .body(post)
                     .retrieve()
                     .toEntity(Post.class);
 
@@ -110,7 +110,7 @@ class PostControllerTest {
         assertThatThrownBy(() -> {
             ResponseEntity<Post> response = restClient.post()
                     .uri(uriBase + API_ROOT)
-                    .body(new HttpEntity<Post>(post))
+                    .body(post)
                     .retrieve()
                     .toEntity(Post.class);
 
