@@ -87,7 +87,6 @@ class PostControllerTest {
     void shouldCreateNewPostWhenPostIsValid() {
         Post post = new Post(101, 1, "101 Title", "101 Body", null);
 
-        assertThatThrownBy(() -> {
             ResponseEntity<Post> response = restClient.post()
                     .uri(uriBase + API_ROOT)
                 .body(post)
@@ -100,7 +99,6 @@ class PostControllerTest {
             assertThat(response.getBody().userId()).isEqualTo(1);
             assertThat(response.getBody().title()).isEqualTo("101 Title");
             assertThat(response.getBody().body()).isEqualTo("101 Body");
-        }).isInstanceOf(HttpClientErrorException.class);
     }
 
     @Test
