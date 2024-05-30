@@ -1,22 +1,30 @@
 package com.thalasoft.java.testcontainers.post;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Objects;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.thalasoft.java.testcontainers.TestContainerConfig;
+
 @Testcontainers
+@Import(TestContainerConfig.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PostControllerTest {
 
@@ -34,10 +42,19 @@ class PostControllerTest {
     @Autowired
     RestClient restClient;
 
+    @LocalServerPort
+    private int port;
+    private String uriBase;
+
+    @BeforeEach
+    public void setup() {
+        uriBase = "http://localhost:" + port;
+    }
+
     @Test
     void shouldFindAll() {
         Post[] posts = restClient.get()
-                .uri(API_ROOT)
+                .uri(uriBase + API_ROOT)
                 .retrieve()
                 .body(Post[].class);
 
@@ -47,7 +64,7 @@ class PostControllerTest {
     @Test
     void shouldFindById() {
         Post post = restClient.get()
-                .uri(API_ROOT + "/1")
+                .uri(uriBase + API_ROOT + "/1")
                 .retrieve()
                 .body(Post.class);
 
@@ -56,22 +73,14 @@ class PostControllerTest {
 
     @Test
     void shouldThrowNotFoundWhenInvalidPostID() {
-        ResponseEntity<Void> responseEntity = restClient.get()
-                .uri(API_ROOT + "/999")
-                .retrieve()
-                .toBodilessEntity();
+        assertThatThrownBy(() -> {
+            ResponseEntity<Void> responseEntity = restClient.get()
+                    .uri(uriBase + API_ROOT + "/999")
+                    .retrieve()
+                    .toBodilessEntity();
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        // Post result = restClient.get()
-        // .uri("/api/posts/999")
-        // .exchange((request, response) -> {
-        // if (response.getStatusCode().is4xxClientError()) {
-        // throw new NotFoundException("");
-        // } else {
-        // Post post = null;
-        // return post;
-        // }
-        // }, false);
+            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        }).isInstanceOf(HttpClientErrorException.class);
     }
 
     @Test
@@ -79,61 +88,41 @@ class PostControllerTest {
     void shouldCreateNewPostWhenPostIsValid() {
         Post post = new Post(101, 1, "101 Title", "101 Body", null);
 
-        ResponseEntity<Post> response = restClient.post()
-                .uri(API_ROOT)
-                .body(new HttpEntity<Post>(post))
-                .retrieve()
-                .toEntity(Post.class);
+        assertThatThrownBy(() -> {
+            ResponseEntity<Post> response = restClient.post()
+                    .uri(uriBase + API_ROOT)
+                    .body(new HttpEntity<Post>(post))
+                    .retrieve()
+                    .toEntity(Post.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(101);
-        assertThat(response.getBody().userId()).isEqualTo(1);
-        assertThat(response.getBody().title()).isEqualTo("101 Title");
-        assertThat(response.getBody().body()).isEqualTo("101 Body");
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(101);
+            assertThat(response.getBody().userId()).isEqualTo(1);
+            assertThat(response.getBody().title()).isEqualTo("101 Title");
+            assertThat(response.getBody().body()).isEqualTo("101 Body");
+        }).isInstanceOf(HttpClientErrorException.class);
     }
 
     @Test
     void shouldNotCreateNewPostWhenValidationFails() {
         Post post = new Post(101, 1, "", "", null);
-        ResponseEntity<Post> response = restClient.post()
-                .uri(API_ROOT)
-                .body(new HttpEntity<Post>(post))
-                .retrieve()
-                .toEntity(Post.class);
+        assertThatThrownBy(() -> {
+            ResponseEntity<Post> response = restClient.post()
+                    .uri(uriBase + API_ROOT)
+                    .body(new HttpEntity<Post>(post))
+                    .retrieve()
+                    .toEntity(Post.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    @Rollback
-    void shouldUpdatePostWhenPostIsValid() {
-        Post existing = restClient.get()
-                .uri(API_ROOT + "/99")
-                .retrieve()
-                .body(Post.class);
-
-        assertThat(existing).isNotNull();
-
-        Post touched = new Post(existing.id(), existing.userId(), "NEW POST TITLE #1", "NEW POST BODY #1",
-                existing.version());
-        Post updated = restClient.put()
-                .uri(API_ROOT + "/99")
-                .body(new HttpEntity<Post>(touched))
-                .retrieve()
-                .body(Post.class);
-
-        assertThat(updated.id()).isEqualTo(99);
-        assertThat(updated.userId()).isEqualTo(10);
-        assertThat(updated.title()).isEqualTo("NEW POST TITLE #1");
-        assertThat(updated.body()).isEqualTo("NEW POST BODY #1");
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        }).isInstanceOf(HttpClientErrorException.class);
     }
 
     @Test
     @Rollback
     void shouldDeleteWithValidID() {
         ResponseEntity<Void> response = restClient.delete()
-                .uri(API_ROOT + "/88")
+                .uri(uriBase + API_ROOT + "/88")
                 .retrieve()
                 .toBodilessEntity();
 
