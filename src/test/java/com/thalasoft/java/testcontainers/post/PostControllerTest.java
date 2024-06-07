@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
-import org.testcontainers.containers.MariaDBContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.thalasoft.java.testcontainers.TestContainerConfig;
@@ -27,15 +25,6 @@ import com.thalasoft.java.testcontainers.TestContainerConfig;
 class PostControllerTest {
 
     private static final String API_ROOT = "/api/posts";
-
-    @Autowired
-    MariaDBContainer<?> mariaDBContainer;
-
-    @Autowired
-    PostgreSQLContainer<?> postgreSQLContainer;
-
-    @Autowired
-    PostRepository postRepository;
 
     @Autowired
     RestClient restClient;
@@ -103,9 +92,9 @@ class PostControllerTest {
         assertThat(response.getBody().body()).isEqualTo(body);
 
         ResponseEntity<Void> deleted = restClient.delete()
-        .uri(uriBase + API_ROOT + "/" + id)
-        .retrieve()
-        .toBodilessEntity();
+                .uri(uriBase + API_ROOT + "/" + id)
+                .retrieve()
+                .toBodilessEntity();
     }
 
     @Test
