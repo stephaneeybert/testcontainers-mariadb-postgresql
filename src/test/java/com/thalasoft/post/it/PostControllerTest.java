@@ -15,10 +15,10 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.thalasoft.post.BaseControllerTest;
 import com.thalasoft.post.Post;
 import com.thalasoft.post.TestContainerConfig;
 import com.thalasoft.post.TestContainersApplication;
-import com.thalasoft.post.ut.BaseControllerTest;
 
 @Testcontainers
 @Import(TestContainerConfig.class)

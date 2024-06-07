@@ -1,4 +1,4 @@
-package com.thalasoft.post.ut;
+package com.thalasoft.post;
 
 import java.util.ArrayList;
 import java.util.List;
