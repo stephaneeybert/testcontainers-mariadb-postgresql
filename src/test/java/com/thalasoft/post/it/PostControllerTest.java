@@ -17,11 +17,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.thalasoft.post.BaseControllerTest;
 import com.thalasoft.post.Post;
-import com.thalasoft.post.TestContainerConfig;
+import com.thalasoft.post.TestDataConfig;
 import com.thalasoft.post.TestContainersApplication;
 
 @Testcontainers
-@Import(TestContainerConfig.class)
+@Import(TestDataConfig.class)
 @AutoConfigureMockMvc
 @SpringBootTest(classes = { TestContainersApplication.class })
 class PostControllerTest extends BaseControllerTest {

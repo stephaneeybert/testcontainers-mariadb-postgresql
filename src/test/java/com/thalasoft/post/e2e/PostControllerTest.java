@@ -18,10 +18,10 @@ import org.springframework.web.client.RestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.thalasoft.post.Post;
-import com.thalasoft.post.TestContainerConfig;
+import com.thalasoft.post.TestDataConfig;
 
 @Testcontainers
-@Import(TestContainerConfig.class)
+@Import(TestDataConfig.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PostControllerTest {
 

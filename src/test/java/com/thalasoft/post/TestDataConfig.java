@@ -7,7 +7,7 @@ import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @Component
-public class TestContainerConfig {
+public class TestDataConfig {
 
     @Bean(destroyMethod = "stop")
     @ServiceConnection
