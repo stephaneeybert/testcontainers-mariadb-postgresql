@@ -3,7 +3,7 @@ package com.thalasoft.post.e2e;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Objects;
+import static com.thalasoft.post.assertion.PostAssert.assertThatPost;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ class PostControllerTest {
                 .retrieve()
                 .body(Post.class);
 
-        assertThat(post.body()).isNotEmpty();
+        assertThatPost(post).hasId(1).hasBody();
     }
 
     @Test
@@ -87,10 +87,8 @@ class PostControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).id()).isEqualTo(id);
-        assertThat(response.getBody().userId()).isEqualTo(userId);
-        assertThat(response.getBody().title()).isEqualTo(title);
-        assertThat(response.getBody().body()).isEqualTo(body);
+        Post posted = response.getBody();
+        assertThatPost(posted).exists().hasId(id).hasUserId(userId).hasTitle(title).hasBody(body);
 
         ResponseEntity<Void> deleted = restClient.delete()
                 .uri(uriBase + API_ROOT + "/" + id)
@@ -132,10 +130,7 @@ class PostControllerTest {
                 .retrieve()
                 .body(Post.class);
 
-        assertThat(updated.id()).isEqualTo(existing.id());
-        assertThat(updated.userId()).isEqualTo(existing.userId());
-        assertThat(updated.title()).isEqualTo(title);
-        assertThat(updated.body()).isEqualTo(body);
+        assertThatPost(updated).hasId(existing.id()).hasUserId(existing.userId()).hasTitle(title).hasBody(body);
     }
 
     @Test
