@@ -1,4 +1,4 @@
-package com.thalasoft.post.tc;
+package com.thalasoft.post.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
