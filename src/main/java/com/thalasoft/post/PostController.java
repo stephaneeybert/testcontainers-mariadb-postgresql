@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers.post;
+package com.thalasoft.post;
 
 import java.util.List;
 import java.util.Optional;

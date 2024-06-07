@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers;
+package com.thalasoft.post;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

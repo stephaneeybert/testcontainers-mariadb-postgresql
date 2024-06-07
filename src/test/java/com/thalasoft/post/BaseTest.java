@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers.post;
+package com.thalasoft.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
@@ -8,20 +8,18 @@ import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import com.thalasoft.java.testcontainers.TestContainerConfig;
-
 @Testcontainers
 @DataJdbcTest
 @Import(TestContainerConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-abstract class BaseTest {
+public abstract class BaseTest {
 
     @Autowired
-    MariaDBContainer<?> mariaDBContainer;
+    protected MariaDBContainer<?> mariaDBContainer;
 
     @Autowired
-    PostgreSQLContainer<?> postgreSQLContainer;
+    protected PostgreSQLContainer<?> postgreSQLContainer;
 
     @Autowired
-    PostRepository postRepository;
+    protected PostRepository postRepository;
 }

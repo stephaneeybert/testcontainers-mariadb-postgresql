@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers.post;
+package com.thalasoft.post;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;

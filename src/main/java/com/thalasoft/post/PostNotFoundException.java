@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers.post;
+package com.thalasoft.post;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

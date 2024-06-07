@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers.post;
+package com.thalasoft.post.tc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,7 +17,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import com.thalasoft.java.testcontainers.TestContainerConfig;
+import com.thalasoft.post.Post;
+import com.thalasoft.post.TestContainerConfig;
 
 @Testcontainers
 @Import(TestContainerConfig.class)

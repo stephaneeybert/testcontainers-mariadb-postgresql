@@ -1,4 +1,4 @@
-package com.thalasoft.java.it.post;
+package com.thalasoft.post.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,15 +20,15 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.thalasoft.java.testcontainers.TestContainerConfig;
-import com.thalasoft.java.testcontainers.TestContainersApplication;
-import com.thalasoft.java.testcontainers.post.Post;
+import com.thalasoft.post.Post;
+import com.thalasoft.post.TestContainerConfig;
+import com.thalasoft.post.TestContainersApplication;
 
 @Testcontainers
 @Import(TestContainerConfig.class)
 @AutoConfigureMockMvc
 @SpringBootTest(classes = { TestContainersApplication.class })
-public class PostControllerITest {
+public class PostControllerTest {
 
     private static final String API_ROOT = "/api/posts";
 

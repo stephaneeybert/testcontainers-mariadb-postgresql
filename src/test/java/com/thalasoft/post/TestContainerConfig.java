@@ -1,4 +1,4 @@
-package com.thalasoft.java.testcontainers;
+package com.thalasoft.post;
 
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
