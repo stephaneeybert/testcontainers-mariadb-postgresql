@@ -6,14 +6,9 @@ import org.springframework.data.annotation.Version;
 import jakarta.validation.constraints.NotEmpty;
 
 public record Post(
-        @Id
-        Integer id,
+        @Id Integer id,
         Integer userId,
-        @NotEmpty
-        String title,
-        @NotEmpty
-        String body,
-        @Version
-        Integer version
-        ) {
+        @NotEmpty String title,
+        @NotEmpty String body,
+        @Version Integer version) {
 }
