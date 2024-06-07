@@ -12,7 +12,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJdbcTest
 @Import(TestContainerConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public abstract class BaseTest {
+public abstract class BaseDataTest {
 
     @Autowired
     protected MariaDBContainer<?> mariaDBContainer;

@@ -8,9 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.thalasoft.post.Post;
-import com.thalasoft.post.BaseTest;
+import com.thalasoft.post.BaseDataTest;
 
-class PostRepositoryTest extends BaseTest {
+class PostRepositoryTest extends BaseDataTest {
 
     @Test
     void mariadbConnectionEstablished() {
