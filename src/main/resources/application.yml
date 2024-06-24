@@ -7,6 +7,13 @@ spring:
       # Create the tables if they don't yet exist
       mode: always
 
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create
+
 testcontainers:
   reuse:
     enable: true
@@ -14,3 +21,4 @@ testcontainers:
 logging:
   level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
   level.org.springframework.web: DEBUG
+
