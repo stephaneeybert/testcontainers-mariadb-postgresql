@@ -16,8 +16,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.thalasoft.post.BaseControllerTest;
-import com.thalasoft.post.Post;
 import com.thalasoft.post.TestDataConfig;
+import com.thalasoft.post.entity.Post;
+import com.thalasoft.post.utils.RESTUtils;
 import com.thalasoft.post.TestContainersApplication;
 
 @Testcontainers
@@ -26,7 +27,7 @@ import com.thalasoft.post.TestContainersApplication;
 @SpringBootTest(classes = { TestContainersApplication.class })
 class PostControllerTest extends BaseControllerTest {
 
-    private static final String API_ROOT = "/api/posts";
+    private static final String API_ROOT = RESTUtils.SLASH + RESTUtils.API + RESTUtils.SLASH + RESTUtils.POSTS;
 
     @Autowired
     private MockMvc mockMvc;

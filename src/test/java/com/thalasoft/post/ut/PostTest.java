@@ -7,7 +7,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.thalasoft.post.Post;
+import com.thalasoft.post.entity.Post;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -25,8 +25,7 @@ class PostTest {
     public void beforeAnyTest() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-
-        post = new Post(1, 1, "My title", "Some body", 1);
+        post = Post.builder().userId(1L).title("My title").body("Some body").isbn("32132").build();
     }
 
     @Test
