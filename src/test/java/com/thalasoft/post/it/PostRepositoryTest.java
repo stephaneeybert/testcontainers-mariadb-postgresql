@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,11 @@ class PostRepositoryTest extends BaseDataTest {
         List<Post> posts = List.of(
                 Post.builder().userId(1L).title("Hi").body("The hi post").isbn("32432").build());
         postRepository.saveAll(posts);
+    }
+
+    @AfterEach
+    void cleanup() {
+        postRepository.deleteAll();
     }
 
     @Test
