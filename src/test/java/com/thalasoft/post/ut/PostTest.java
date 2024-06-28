@@ -22,7 +22,7 @@ class PostTest {
     private Set<ConstraintViolation<Post>> constraintViolations;
 
     @BeforeEach
-    public void beforeAnyTest() {
+    public void beforeEachTest() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         post = Post.builder().userId(1L).title("My title").body("Some body").isbn("32132").build();
