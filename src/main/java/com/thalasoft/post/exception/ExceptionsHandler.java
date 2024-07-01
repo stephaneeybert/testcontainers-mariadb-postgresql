@@ -94,11 +94,11 @@ public class ExceptionsHandler extends AbstractExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public ResponseEntity<ErrorFormInfo> methodArgumentNotValidException(HttpServletRequest request,
+    public ResponseEntity<ErrorModelInfo> methodArgumentNotValidException(HttpServletRequest request,
             MethodArgumentNotValidException e) {
         String url = this.getFullRequestUrl(request);
         String errorMessage = localizeErrorMessage("error.failed.controller.validation");
-        ErrorFormInfo errorFormInfo = new ErrorFormInfo(url, HttpStatus.BAD_REQUEST, errorMessage);
+        ErrorModelInfo errorFormInfo = new ErrorModelInfo(url, HttpStatus.BAD_REQUEST, errorMessage);
         BindingResult result = e.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         errorFormInfo.getFieldErrors().addAll(populateFieldErrors(fieldErrors));
@@ -109,15 +109,15 @@ public class ExceptionsHandler extends AbstractExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorFormInfo);
     }
 
-    private List<ErrorFormField> populateFieldErrors(List<FieldError> fieldErrorList) {
-        List<ErrorFormField> errorFormFields = new ArrayList<>();
+    private List<ErrorModelField> populateFieldErrors(List<FieldError> fieldErrorList) {
+        List<ErrorModelField> errorFormFields = new ArrayList<>();
         StringBuilder errorMessage = new StringBuilder("");
         for (FieldError fieldError : fieldErrorList) {
             errorMessage.append(fieldError.getCode()).append(".");
             errorMessage.append(fieldError.getObjectName()).append(".");
             errorMessage.append(fieldError.getField());
             errorFormFields
-                    .add(new ErrorFormField(fieldError.getField(), localizeErrorMessage(errorMessage.toString())));
+                    .add(new ErrorModelField(fieldError.getField(), localizeErrorMessage(errorMessage.toString())));
             errorMessage.delete(0, errorMessage.capacity());
         }
         return errorFormFields;

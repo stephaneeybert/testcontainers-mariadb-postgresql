@@ -5,23 +5,23 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-public class ErrorFormInfo {
+public class ErrorModelInfo {
 
     private String url;
     private HttpStatus httpStatus;
     private String message;
-    private List<ErrorFormField> fieldErrors = new ArrayList<>();
+    private List<ErrorModelField> fieldErrors = new ArrayList<>();
 
-    public ErrorFormInfo() {
+    public ErrorModelInfo() {
     }
 
-    public ErrorFormInfo(String url, HttpStatus httpStatus, String message) {
+    public ErrorModelInfo(String url, HttpStatus httpStatus, String message) {
         this.url = url;
         this.httpStatus = httpStatus;
         this.message = message;
     }
 
-    public ErrorFormInfo(String url, HttpStatus httpStatus, String message, List<ErrorFormField> fieldErrors) {
+    public ErrorModelInfo(String url, HttpStatus httpStatus, String message, List<ErrorModelField> fieldErrors) {
         this.url = url;
         this.httpStatus = httpStatus;
         this.message = message;
@@ -44,11 +44,11 @@ public class ErrorFormInfo {
         this.message = message;
     }
 
-    public List<ErrorFormField> getFieldErrors() {
+    public List<ErrorModelField> getFieldErrors() {
         return fieldErrors;
     }
 
-    public void setFieldErrors(List<ErrorFormField> fieldErrors) {
+    public void setFieldErrors(List<ErrorModelField> fieldErrors) {
         this.fieldErrors = fieldErrors;
     }
 

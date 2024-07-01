@@ -1,14 +1,14 @@
 package com.thalasoft.post.exception;
 
-public class ErrorFormField {
+public class ErrorModelField {
 
     private String fieldName;
     private String fieldError;
 
-    public ErrorFormField() {
+    public ErrorModelField() {
     }
 
-    public ErrorFormField(String fieldName, String fieldError) {
+    public ErrorModelField(String fieldName, String fieldError) {
         this.fieldName = fieldName;
         this.fieldError = fieldError;
     }
