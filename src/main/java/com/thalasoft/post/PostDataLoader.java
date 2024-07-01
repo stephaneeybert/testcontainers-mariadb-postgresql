@@ -26,9 +26,9 @@ public class PostDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (postRepository.count() == 0) {
-            String POST_JSON = "/data/posts.json";
-            log.info("Loading posts into the database from a json: {}", POST_JSON);
-            try (InputStream inputStream = TypeReference.class.getResourceAsStream(POST_JSON)) {
+            String postJson = "/data/posts.json";
+            log.info("Loading posts into the database from a json: {}", postJson);
+            try (InputStream inputStream = TypeReference.class.getResourceAsStream(postJson)) {
                 Posts response = objectMapper.readValue(inputStream, Posts.class);
                 postRepository.saveAll(response.posts());
             } catch (IOException e) {

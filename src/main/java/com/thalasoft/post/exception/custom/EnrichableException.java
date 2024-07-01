@@ -1,4 +1,4 @@
-package com.thalasoft.post.exception;
+package com.thalasoft.post.exception.custom;
 
 import java.util.ArrayList;
 import java.util.List;

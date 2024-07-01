@@ -1,5 +1,6 @@
 package com.thalasoft.post.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,10 @@ public class ModelService {
         return post;
     }
 
+    public List<Post> toPosts(List<PostModel> postModels) {
+        return postModels.stream().map(this::toPost).toList();
+    }
+
     public PostModel fromPost(Post post) {
         PostModel postModel = new PostModel();
         postModel.setId(post.getId());
@@ -50,6 +55,10 @@ public class ModelService {
         postModel.setBody(post.getBody());
         postModel.setIsbn(post.getIsbn());
         return postModel;
+    }
+
+    public List<PostModel> toPostModels(List<Post> posts) {
+        return posts.stream().map(this::fromPost).toList();
     }
 
     public void addPageableToUri(UriComponentsBuilder uriComponentsBuilder, Pageable pageable) {

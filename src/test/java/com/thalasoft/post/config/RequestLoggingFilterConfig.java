@@ -1,4 +1,4 @@
-package com.thalasoft.post;
+package com.thalasoft.post.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

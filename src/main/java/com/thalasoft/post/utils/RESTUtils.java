@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 public final class RESTUtils {
 
     public static final String RESOURCE_PROPERTY_ID = "id";
+    public static final String HOST = "localhost";
     public static final String SLASH = "/";
     public static final String API = "api";
     public static final String POSTS = "posts";

@@ -16,10 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.thalasoft.post.BaseControllerTest;
-import com.thalasoft.post.TestDataConfig;
-import com.thalasoft.post.entity.Post;
+import com.thalasoft.post.model.PostModel;
 import com.thalasoft.post.utils.RESTUtils;
 import com.thalasoft.post.TestContainersApplication;
+import com.thalasoft.post.config.TestDataConfig;
 
 @Testcontainers
 @Import(TestDataConfig.class)
@@ -36,7 +36,7 @@ class PostControllerTest extends BaseControllerTest {
     void shouldFindAll() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_ROOT);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        ArrayList<Post> posts = deserializeResourcesArray(mvcResult, Post.class);
-        assertThat(posts).hasSize(100);
+        ArrayList<PostModel> postModels = deserializeResourcesArray(mvcResult, PostModel.class);
+        assertThat(postModels).hasSize(100);
     }
 }

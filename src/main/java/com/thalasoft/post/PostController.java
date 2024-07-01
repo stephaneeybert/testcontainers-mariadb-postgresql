@@ -1,6 +1,10 @@
 package com.thalasoft.post;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -59,38 +63,38 @@ public class PostController {
 
     // @GetMapping("")
     // public ResponseEntity<PagedModel<PostModel>> findAll(
-    //         @PageableDefault(sort = { "orderedOn" }, direction = Sort.Direction.ASC) Pageable pageable, Sort sort,
-    //         PagedResourcesAssembler<PostModel> pagedResourcesAssembler, UriComponentsBuilder builder) {
-    //     sort = RESTUtils.stripColumnsFromSorting(sort, nonSortableColumns);
-    //     postService.addSortToPageable(pageable, sort);
-    //     Page<Post> posts = postService.findAll(pageable);
-    //     PagedModel<PostModel> pagedPostModels = pagedResourcesAssembler.toModel(posts, postModelAssembler);
-    //     UriComponentsBuilder uriComponentsBuilder = builder.path(RESTUtils.SLASH);
-    //     modelService.addPageableToUri(uriComponentsBuilder, pageable);
-    //     HttpHeaders responseHeaders = new HttpHeaders();
-    //     responseHeaders.setLocation(uriComponentsBuilder.buildAndExpand().toUri());
-    //     return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(pagedPostModels);
+    // @PageableDefault(sort = { "orderedOn" }, direction = Sort.Direction.ASC)
+    // Pageable pageable, Sort sort,
+    // PagedResourcesAssembler<PostModel> pagedResourcesAssembler,
+    // UriComponentsBuilder builder) {
+    // sort = RESTUtils.stripColumnsFromSorting(sort, nonSortableColumns);
+    // postService.addSortToPageable(pageable, sort);
+    // Page<Post> posts = postService.findAll(pageable);
+    // PagedModel<PostModel> pagedPostModels =
+    // pagedResourcesAssembler.toModel(posts, postModelAssembler);
+    // UriComponentsBuilder uriComponentsBuilder = builder.path(RESTUtils.SLASH);
+    // modelService.addPageableToUri(uriComponentsBuilder, pageable);
+    // HttpHeaders responseHeaders = new HttpHeaders();
+    // responseHeaders.setLocation(uriComponentsBuilder.buildAndExpand().toUri());
+    // return
+    // ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(pagedPostModels);
     // }
 
     @GetMapping("")
-    public ResponseEntity<CollectionModel<PostModel>> findAll() {
-        return new ResponseEntity<>(
-                postModelAssembler.toCollectionModel(postService.findAll()),
-                HttpStatus.OK);
+    public ResponseEntity<List<PostModel>> findAll() {
+        return ResponseEntity.ok().body(modelService.toPostModels(postService.findAll()));
+    }
+
+    @GetMapping("/hateoas")
+    public ResponseEntity<CollectionModel<PostModel>> hateoasFindAll() {
+        return ResponseEntity.ok().body(postModelAssembler.toCollectionModel(postService.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostModel> getReferenceById(@PathVariable final Long id) {
-        return Optional.ofNullable(postModelAssembler.toModel(postService.getReferenceById(id)))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/find/{id}")
     public ResponseEntity<PostModel> findById(@PathVariable final Long id) {
         return Optional.ofNullable(postModelAssembler.toModel(postService.findById(id)))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")

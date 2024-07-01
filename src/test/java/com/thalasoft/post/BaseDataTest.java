@@ -9,6 +9,8 @@ import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.thalasoft.post.config.TestDataConfig;
+
 @Testcontainers
 @SpringBootTest
 @Import(TestDataConfig.class)

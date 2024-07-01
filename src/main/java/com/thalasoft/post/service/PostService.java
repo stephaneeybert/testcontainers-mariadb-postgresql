@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.thalasoft.post.PostRepository;
 import com.thalasoft.post.entity.Post;
-import com.thalasoft.post.exception.EntityAlreadyExistsException;
+import com.thalasoft.post.exception.custom.EntityAlreadyExistsException;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
