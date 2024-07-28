@@ -69,4 +69,8 @@ public class ModelService {
                             order.getDirection().name());
         }
     }
+
+    public void addSortToPageable(Pageable page, Sort sort) {
+        page.getSort().and(sort);
+    }
 }

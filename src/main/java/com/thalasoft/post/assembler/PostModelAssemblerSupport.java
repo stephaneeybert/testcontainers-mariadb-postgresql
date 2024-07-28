@@ -15,11 +15,11 @@ import com.thalasoft.post.model.PostModel;
 import com.thalasoft.post.service.ModelService;
 
 @Component
-public class PostModelAssembler extends RepresentationModelAssemblerSupport<Post, PostModel> {
+public class PostModelAssemblerSupport extends RepresentationModelAssemblerSupport<Post, PostModel> {
 
     private final ModelService modelService;
 
-    public PostModelAssembler(ModelService postService) {
+    public PostModelAssemblerSupport(ModelService postService) {
         super(PostController.class, PostModel.class);
         this.modelService = postService;
     }
