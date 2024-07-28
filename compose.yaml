@@ -1,0 +1,18 @@
+services:
+  mariadb:
+    image: 'mariadb'
+    restart: 'always'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=root'
+      - 'MYSQL_DATABASE=posts'
+      - 'MYSQL_USER=stephane'
+      - 'MYSQL_PASSWORD=secret'
+  postgres:
+    container_name: blog_postgres_db
+    image: 'postgres:16.0'
+    environment:
+      - 'POSTGRES_DB=posts'
+      - 'POSTGRES_USER=dan'
+      - 'POSTGRES_PASSWORD=secret'
+    ports:
+      - '5432'

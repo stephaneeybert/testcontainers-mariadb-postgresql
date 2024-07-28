@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: testcontainers-mariadb-postgresql
+
+  sql:
+    init:
+      # Create the tables if they don't yet exist
+      mode: always
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create
+
+logging:
+  level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  level.org.springframework.web: DEBUG
